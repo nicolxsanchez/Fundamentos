@@ -400,7 +400,6 @@ int n;
 
     int matriz01[20][20];
     matriz_unicos(matriz01);
-    
 
     return 0;
 }
