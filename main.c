@@ -1,405 +1,1124 @@
 #include <stdio.h>
-#include <math.h>
+#include <stdlib.h>
 #include <string.h>
-//Ejercicio 12.5
-#define N 4
-#define M 5
 
 
-//Ejercicio 12.6
-
-double* funcion(double* arreglo01, int num){
-
-    double *elem_menor = &arreglo01[0];
-
-    for (int i = 1; i < num; i++){
-        if(arreglo01[i] < *elem_menor){
-            elem_menor = &arreglo01[i];
-        }
-    }
-    return elem_menor;
-}
-
-//Problema 12.1
-
-int vocal(char* linea){
-int i = 0;
-
-while(*linea != '\0') {
-    if (*linea == 'a' || *linea == 'A' || *linea == 'e' || *linea == 'E' || *linea == 'i' || *linea == 'I' ||
-        *linea == 'o'
-        || *linea == 'O' || *linea == 'u' || *linea == 'U'){
-    i++;
-}
-    linea++;
-}
-return i;
-}
-
-//Problema 12.4
-
-double ff(double x) {
-    return 3 * exp(x) - 2 * x;
-}
-
-double g(double x) {
-    return -x * sin(x) + 1.5;
-}
-
-double z(double x){
-    return pow(x, 2) - 2 * x + 3;
-}
-
-//Problema 12.5
-
-void enteros_largos(char *num1, char *num2, char *resultado) {
-    int c = 0;
-    int suma;
-    int i;
-
-    int largo1 = strlen(num1);
-    int largo2 = strlen(num2);
-    for (i = largo1 - 1; i >= 0; i--) {
-        suma = (num1[i] - '0') + (num2[i] - '0') + c; c = suma / 10;
-        resultado[i] = (suma % 10) + '0';
-    }
-    resultado[largo1] = '\0';
-}
-
-//Problema 12.6
-
-double cadena(const char *str) {
-    double result;
-    sscanf(str, "%lf", &result);
-    return result;
-}
-
-//Problema 12.9
-
-double rectangulo(double base, double altura){
-    return (base * altura) / 2;
-}
-
-double isoceles(double base, double altura) {
-    return (base * altura) / 2;
-}
-
-double cuadrado(double lado) {
-    return lado * lado;
-}
-
-double trapecio(double base_mayor, double base_menor, double altura) {
-    return ((base_mayor + base_menor) * altura) / 2;
-}
-
-double circulo(double radio) {
-    return 3.14 * radio * radio;
-}
-
-//Problema 13.1
-
-void eliminar_espacios(char* cadena) {
-    int i, j = 0;
-    for (i = 0; cadena[i] != '\0'; i++) {
-        if (cadena[i] != ' ') {
-            cadena[j] = cadena[i];
-            j++;
-        }
-    }
-    cadena[j] = '\0';
-}
-
-//Problema 13.2
-
-int leer_num() {
-    int numero;
-    printf("Ingrese el número grande: ");
-    scanf("%d", numero);
-    return numero;
-}
-
-int sumar_num(int numero1, int numero2) {
-
-    int resultado = numero1 + numero2;
-
-    return resultado;
-}
-
-//Problema 13.4
-
-void matriz_unicos(int matriz[20][20]){
-    int matrizes[20][20] = {0};
-
-    for (int n1 = 0; n1 < 20; n1++) {
-        int indice = 0;
-
-        for (int n2 = 0; n2 < 20; n2++) {
-            int elemento = matrizes[n1][n2];
-            int repetido = 0;
+typedef struct{
+    char marca[20];
+    int anio;
+    char ficha[10];
+    char propietario[20];
+}Carro;
 
 
-        for (int k = 0; k < indice; k++) {
-            if (matrizes[n1][k] == elemento) {
-                repetido = 1;
+
+typedef struct{
+    int ID;
+    char nombre[40];
+    char trabajo[20];
+    char celular[15];
+    char comp_movil[20];
+}Pasajeros;
+
+
+
+typedef struct{
+    int dia;
+    int mes;
+    int year;
+    char hora[10]; // Hora, minuto y segundos
+}Tiempo;
+
+
+
+typedef struct{
+    char ficha[10];
+    Tiempo tiempo;
+    int cliente;
+    int pago;
+    int devuelta;
+    int cant_estimada;
+
+}Servicio;
+
+
+int MostrarMenu();
+int MostrarMenu2();
+int MostrarMenu3();
+int MostrarMenu4();
+void CapturarConcho(int, Carro*);
+void CapturarPasajeros(int, Pasajeros*);
+void CapturarServicio(int, Servicio*);
+void VerPasajerosdeUnConcho(int, Servicio*, Pasajeros*, Carro*);
+void VerPasajerosdeUnConcho_Trabajo(int, Servicio*, Pasajeros*, Carro*);
+void VerPasajerosdeUnConcho_Telef(int, Servicio*, Pasajeros*, Carro*);
+void VerPasajerosdeUnConcho_Tiempo(int, Servicio*, Pasajeros*, Carro*);
+void VerPasajerosdeUnConcho_Monto(int, Servicio*, Pasajeros*, Carro*);
+void VerPasajerosdeUnConcho_Monto_Devuelta(int, Servicio*, Pasajeros*, Carro*);
+void VerPasajerosdeUnConcho_Fecha(int, Servicio*, Pasajeros* , Carro*);
+void VerConchoqueMontaUnPasajero(int ind, Servicio* , Pasajeros* , Carro*);
+void VerConchoModelo(int, Servicio*, Pasajeros*, Carro*);
+void VerConchoMarca(int, Servicio*, Pasajeros* , Carro* );
+void VerConchoPropietario(int, Servicio*, Pasajeros*, Carro*);
+void VerConchoMonto(int, Servicio* , Pasajeros* , Carro* );
+void VerConchoFecha(int, Servicio*, Pasajeros*, Carro*);
+void VerFichaCarro(int, Servicio*, Pasajeros*, Carro*);
+void VerIDPasajero(int, Servicio*, Pasajeros*, Carro*);
+void VerRangoMonto(int, Servicio* , Pasajeros* , Carro*);
+void VerRangoFecha(int, Servicio*, Pasajeros*, Carro*);
+void VerRangoTiempo(int, Servicio*, Pasajeros*, Carro*);
+
+int main()
+
+{
+
+    int CantPasajeros = 0, CantConcho = 0, CantServicio = 0;
+
+    Carro *ListadoConcho = (Carro*)malloc(sizeof(Carro) *CantConcho);
+    Pasajeros *ListadoPasajeros = (Pasajeros*)malloc(sizeof(Pasajeros) *CantPasajeros);
+    Servicio *ListadoServicio = (Servicio*)malloc(sizeof(Servicio) *CantServicio);
+
+    int option=0, option2=0, option3=0, option4=0;
+
+    do {
+
+        option = MostrarMenu();
+
+        switch (option) {
+
+            case 1:
+
+                CantConcho++;
+                ListadoConcho = (Carro *) realloc(ListadoConcho, sizeof(Carro) * CantConcho);
+                CapturarConcho(CantConcho - 1, ListadoConcho);
+
                 break;
+
+            case 2:
+
+                CantPasajeros++;
+                ListadoPasajeros = (Pasajeros *) realloc(ListadoPasajeros, sizeof(Pasajeros) * CantPasajeros);
+                CapturarPasajeros(CantPasajeros - 1, ListadoPasajeros);
+
+                break;
+
+            case 3:
+
+                CantServicio++;
+                ListadoServicio = (Servicio *) realloc(ListadoServicio, sizeof(Servicio) * CantServicio);
+                CapturarServicio(CantServicio - 1, ListadoServicio);
+
+                break;
+
+            case 4:
+
+                do {
+
+                    option2 = MostrarMenu2();
+
+                    switch (option2) {
+
+                        case 1:
+
+                            VerPasajerosdeUnConcho(CantServicio, ListadoServicio, ListadoPasajeros, ListadoConcho);
+                            break;
+
+                        case 2:
+
+                            VerPasajerosdeUnConcho_Trabajo(CantServicio, ListadoServicio, ListadoPasajeros,
+                                                           ListadoConcho);
+                            break;
+
+                        case 3:
+
+                            VerPasajerosdeUnConcho_Telef(CantServicio, ListadoServicio, ListadoPasajeros,
+                                                         ListadoConcho);
+                            break;
+
+                        case 4:
+
+                            VerPasajerosdeUnConcho_Tiempo(CantServicio, ListadoServicio, ListadoPasajeros,
+                                                          ListadoConcho);
+                            break;
+
+                        case 5:
+
+                            VerPasajerosdeUnConcho_Monto(CantServicio, ListadoServicio, ListadoPasajeros,
+                                                         ListadoConcho);
+                            break;
+
+                        case 6:
+
+                            VerPasajerosdeUnConcho_Monto_Devuelta(CantServicio, ListadoServicio, ListadoPasajeros,
+                                                                  ListadoConcho);
+                            break;
+
+                        case 7:
+                            VerPasajerosdeUnConcho_Fecha(CantServicio, ListadoServicio, ListadoPasajeros,
+                                                         ListadoConcho);
+                            break;
+
+                    }
+                } while (option2 != 8);
+
+
+            case 5:
+
+                do {
+
+                    option3 = MostrarMenu3();
+
+                    switch (option3) {
+
+                        case 1:
+                            VerConchoqueMontaUnPasajero(CantServicio, ListadoServicio, ListadoPasajeros, ListadoConcho);
+
+                            break;
+
+                        case 2:
+                            VerConchoModelo(CantServicio, ListadoServicio, ListadoPasajeros,ListadoConcho);
+
+                            break;
+
+                        case 3:
+                          VerConchoMarca(CantServicio,  ListadoServicio,  ListadoPasajeros, ListadoConcho);
+
+                            break;
+
+                        case 4:
+                            VerConchoMonto(CantServicio, ListadoServicio, ListadoPasajeros, ListadoConcho);
+                            break;
+
+                        case 5:
+                            VerConchoPropietario(CantServicio, ListadoServicio, ListadoPasajeros, ListadoConcho);
+                            break;
+
+                        case 6:
+                           VerConchoFecha(CantServicio,  ListadoServicio, ListadoPasajeros, ListadoConcho);
+                            break;
+
+
+                    }
+                } while (option3 != 7);
+
+
+            case 6:
+
+                do {
+
+                    option4 = MostrarMenu4();
+
+                    switch (option4) {
+
+                        case 1:
+
+                            VerFichaCarro(CantServicio, ListadoServicio, ListadoPasajeros,ListadoConcho);
+
+                            break;
+
+                        case 2:
+
+                            VerIDPasajero(CantServicio, ListadoServicio,  ListadoPasajeros,  ListadoConcho);
+
+                            break;
+
+                        case 3:
+                            VerRangoMonto(CantServicio, ListadoServicio, ListadoPasajeros, ListadoConcho);
+
+                            break;
+
+                        case 4:
+
+                            VerRangoFecha(CantServicio,  ListadoServicio, ListadoPasajeros,  ListadoConcho);
+                            break;
+
+                        case 5:
+                                VerRangoTiempo(CantServicio, ListadoServicio, ListadoPasajeros, ListadoConcho);
+                            break;
+
+                        case 6:
+
+                            break;
+
+
+                    }
+                } while (option3 != 7);
+
+                break;
+
+
+        }
+    } while (option != 7);
+
+    printf("\n=====Hasta luego!=====\n");
+
+    return 0;
+
+    }
+
+
+int MostrarMenu()
+
+{
+    char opcion;
+
+        printf("\n======DEPARTAMENTO DE TRANSPORTE PUBLICO DE CONCHOS======\n");
+        printf("Elija las siguientes opciones para:\n\n");
+        printf("1. Registar un carro publico.\n");
+        printf("2. Registar un pasajero.\n");
+        printf("3. Registrar un servicio de transporte.\n");
+        printf("4. Mostrar pasajeros que un concho ha tomado.\n");
+        printf("5. Mostrar datos de los conchos que un cliente especifico ha tomado. \n");
+        printf("6. Mostrar servicios de transporte.\n");
+        printf("7. Salir\n\n.");
+
+        printf("RESPUESTA: ");
+
+        fflush(stdin);
+        opcion= getchar();
+
+        switch(opcion)
+        {
+            case '1':
+                return 1;
+            case '2':
+                return 2;
+            case '3':
+                return 3;
+
+            case '4':
+                return 4;
+
+            case '5':
+                return 5;
+
+            case '6':
+                return 6;
+
+            case '7':
+                return 7;
+
+            default:
+                return 0;
+        }
+}
+
+
+int MostrarMenu2()
+
+{
+    char opcion2;
+
+    printf("Elija las siguientes opciones para mostrar:\n\n");
+    printf("1. Todos los pasajeros (sin ningun criterio de filtrado).\n");
+    printf("2. Todos los pasajeros cuyo lugar de trabajo sea especificado.\n");
+    printf("3. Todos los pasajeros cuyo celular sea de una compania especificada.\n");
+    printf("4. Todos los pasajeros cuyo tiempo de viaje promedio este en un rango especificado.\n");
+    printf("5. Todos los pasajeros cuyo monto con el que pago este en un rango especificado. \n");
+    printf("6. Todos los pasajeros cuyo monto del servicio (monto con el que pago menos la devuelta) este en un \n"
+           "rango especificado.\n");
+    printf("7. Todos los pasajeros cuya fecha y hora de servicio esta en un rango de fecha y hora especificado.\n.");
+    printf("8. Salir.\n\n.");
+
+    printf("RESPUESTA: ");
+
+    fflush(stdin);
+    opcion2= getchar();
+
+    switch(opcion2)
+    {
+        case '1':
+            return 1;
+        case '2':
+            return 2;
+        case '3':
+            return 3;
+
+        case '4':
+            return 4;
+
+        case '5':
+            return 5;
+
+        case '6':
+            return 6;
+
+        case '7':
+            return 7;
+
+        case '8':
+            return 8;
+        default:
+            return 0;
+    }
+}
+
+
+int MostrarMenu3()
+{
+    char opcion3;
+
+    printf("Elija las siguientes opciones para mostrar:\n\n");
+    printf("1. Todos los carros publicos (sin ningun criterio de filtrado).\n");
+    printf("2. Todos los carros cuyo anyo del modelo este en un rango.\n");
+    printf("3. Todos los carros cuya marca sea la especificada por el usuario.\n");
+    printf("4. Todos los carros a los que se les haya pagado con un monto que este en un rango especificado.\n");
+    printf("5. Todos los carros de un propietario especificado.\n");
+    printf("6. Todos los carros en los que se haya montado en una fecha dentro de un rango especificado.\n");
+    printf("7. Salir.\n\n.");
+
+    printf("RESPUESTA: ");
+
+    fflush(stdin);
+    opcion3= getchar();
+
+    switch(opcion3)
+    {
+        case '1':
+            return 1;
+        case '2':
+            return 2;
+        case '3':
+            return 3;
+
+        case '4':
+            return 4;
+
+        case '5':
+            return 5;
+
+        case '6':
+            return 6;
+
+        case '7':
+            return 7;
+
+        case '8':
+            return 8;
+        default:
+            return 0;
+    }
+}
+
+
+int MostrarMenu4()
+
+{
+    char opcion4;
+
+    printf("Elija las siguientes opciones para mostrar:\n\n");
+    printf("1. Ficha del carro.\n");
+    printf("2. Id del pasajero.\n");
+    printf("3. Rango del monto del servicio.\n");
+    printf("4. Rango de fecha y hora del servicio.\n");
+    printf("5. Rango de tiempo estimado del viaje.\n");
+    printf("6. Todos.\n");
+    printf("7. Salir.\n.");
+
+    printf("RESPUESTA: ");
+
+    fflush(stdin);
+    opcion4= getchar();
+
+    switch(opcion4)
+    {
+        case '1':
+            return 1;
+        case '2':
+            return 2;
+        case '3':
+            return 3;
+
+        case '4':
+            return 4;
+
+        case '5':
+            return 5;
+
+        case '6':
+            return 6;
+
+        default:
+            return 0;
+    }
+}
+
+
+
+
+
+void CapturarConcho(int ind, Carro* ListadoConcho)
+
+{
+
+    printf("MARCA DEL VEHICULO: ");
+    fflush(stdin);
+    gets((ListadoConcho+ind)->marca);
+    printf("\n");
+
+
+    printf("ANYO DEL VEHICULO: ");
+    scanf("  %d", &((ListadoConcho+ind)->anio));
+    printf("\n");
+
+
+    printf("FICHA: ");
+    fflush(stdin);
+    gets((ListadoConcho+ind)->ficha);
+    printf("\n");
+
+
+    printf("PROPIETARIO: ");
+    fflush(stdin);
+    gets((ListadoConcho+ind)->propietario);
+
+    printf("\nAGREGADO EXITOSAMENTE.\n\n");
+
+}
+
+
+
+void CapturarPasajeros(int ind, Pasajeros* ListadoPasajeros)
+
+{
+
+    printf("ID DEL CLIENTE: ");
+    scanf("%d", &((ListadoPasajeros+ind)->ID));
+    printf("\n");
+
+
+    printf("NOMBRE COMPLETO : ");
+    fflush(stdin);
+    gets((ListadoPasajeros+ind)->nombre);
+    printf("\n");
+
+
+    printf("LUGAR DE TRABAJO: ");
+    fflush(stdin);
+    gets((ListadoPasajeros+ind)->trabajo);
+    printf("\n");
+
+
+    printf("CELULAR: ");
+    fflush(stdin);
+    gets((ListadoPasajeros+ind)->celular);
+    printf("\n");
+
+
+    printf("COMPANIA MOVIL: ");
+    fflush(stdin);
+    gets((ListadoPasajeros+ind)->comp_movil);
+
+    printf("\nAGREGADO EXITOSAMENTE\n\n");
+
+}
+
+
+
+void CapturarServicio(int ind, Servicio* ListadoServicio)
+
+{
+
+    printf("ID DEL CLIENTE: ");
+    scanf("%d", &((ListadoServicio+ind)->cliente));
+    printf("\n");
+
+    printf("INDIQUE PAGO DEL SERVICIO: ");
+    scanf("%d", &((ListadoServicio+ind)->pago));
+    printf("\n");
+
+
+    printf("INDIQUE PAGO DE LA DEVUELTA: ");
+    scanf("%d", &((ListadoServicio+ind)->devuelta));
+    printf("\n");
+
+    printf("INDIQUE CANTIDAD ESTIMADA DEL SERVICIO: ");
+    scanf("%d", &((ListadoServicio+ind)->cant_estimada));
+    printf("\n");
+
+
+    // int dia;
+    // int mes
+    // int anio;
+    // char hora[10]; Hora, minuto y segundos
+
+
+    printf("DIA DEL SERVICIO:");
+    scanf("%d", &((ListadoServicio+ind)->tiempo.dia));
+
+    printf("MES DEL SERVICIO:");
+    scanf(" %d", &((ListadoServicio+ind)->tiempo.mes));
+
+    printf("ANYO DEL SERVICIO:");
+    scanf(" %d", &((ListadoServicio+ind)->tiempo.year));
+
+    printf("HORA APROXIMADA DEL SERVICIO(HORA/MINUTO/SEGUNDO): ");
+    fflush(stdin);
+   gets((ListadoServicio+ind)->tiempo.hora);
+
+    printf("FICHA: ");
+    fflush(stdin);
+    gets((ListadoServicio+ind)->ficha);
+    printf("\n");
+
+
+    printf("\nAGREGADO EXITOSAMENTE\n\n");
+}
+
+//PASAJEROS
+
+void VerPasajerosdeUnConcho(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0;
+    char fiches[10];
+
+    printf("\nDIGITE LA FICHA DEL CONCHO QUE DESEA VER: ");
+    fflush(stdin);
+    gets(fiches);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if (strcmp(fiches, (ListadoServicio + i)->ficha) == 0){  //AGREGAR EL LISTADOCONCHO -> && (ListadoConcho+i)->ficha ==(ListadoServicio+i)->ficha)
+
+            if( (ListaPasajeros + i)->ID == (ListadoServicio + i)->cliente){
+
+            printf("CLIENTE ID: %d\n", (ListaPasajeros+i)->ID);
+            printf("NOMBRE: %s\n", (ListaPasajeros+i)->nombre);
+            printf("LUGAR DE TRABAJO: %s\n", (ListaPasajeros+i)->trabajo);
+            printf("CEULAR: %s\n", (ListaPasajeros+i)->celular);
+            printf("COMPANIA MOVIL: %s\n\n", (ListaPasajeros+i)->comp_movil);
+            //rintf("%d\n", i);
+
+        }
+        }
+    }
+    }
+
+
+
+void VerPasajerosdeUnConcho_Trabajo(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0;
+    char fiches[10], trabajar[10];
+
+    printf("\nDIGITE LA FICHA DEL CONCHO QUE DESEA VER: ");
+    fflush(stdin);
+    gets(fiches);
+    printf("\n");
+
+    printf("\nDIGITE EL TRABAJO DE LOS PASAJEROS QUE DESEA VER: ");
+    fflush(stdin);
+    gets(trabajar);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if (strcmp(fiches, (ListadoServicio + i)->ficha) == 0){  //AGREGAR EL LISTADOCONCHO -> && (ListadoConcho+i)->ficha ==(ListadoServicio+i)->ficha)
+
+            if(strcmp(trabajar, (ListaPasajeros + i)->trabajo) == 0){
+
+                printf("CLIENTE ID: %d\n", (ListaPasajeros+i)->ID);
+                printf("NOMBRE: %s\n", (ListaPasajeros+i)->nombre);
+                printf("LUGAR DE TRABAJO: %s\n", (ListaPasajeros+i)->trabajo);
+                printf("CEULAR: %s\n", (ListaPasajeros+i)->celular);
+                printf("COMPANIA MOVIL: %s\n\n", (ListaPasajeros+i)->comp_movil);
+                //rintf("%d\n", i);
+
+            }
+        }
+    }
+}
+
+
+
+void VerPasajerosdeUnConcho_Telef(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0;
+    char fiches[10], comp_telefonica[10];
+
+    printf("\nDIGITE LA FICHA DEL CONCHO QUE DESEA VER: ");
+    fflush(stdin);
+    gets(fiches);
+    printf("\n");
+
+    printf("\nDIGITE LA COMPANIA TELEFONICA DE LOS PASAJEROS QUE DESEA VER: ");
+    fflush(stdin);
+    gets(comp_telefonica);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if (strcmp(fiches, (ListadoServicio + i)->ficha) == 0){
+
+            if(strcmp(comp_telefonica, (ListaPasajeros + i)->comp_movil) == 0){
+
+                printf("CLIENTE ID: %d\n", (ListaPasajeros+i)->ID);
+                printf("NOMBRE: %s\n", (ListaPasajeros+i)->nombre);
+                printf("LUGAR DE TRABAJO: %s\n", (ListaPasajeros+i)->trabajo);
+                printf("CEULAR: %s\n", (ListaPasajeros+i)->celular);
+                printf("COMPANIA MOVIL: %s\n\n", (ListaPasajeros+i)->comp_movil);
+                //rintf("%d\n", i);
+
+            }
+        }
+    }
+}
+
+
+//
+void VerPasajerosdeUnConcho_Tiempo(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0;
+    char tiempo[10], fiches[10];
+
+    printf("\nDIGITE LA FICHA DEL CONCHO QUE DESEA VER: ");
+    fflush(stdin);
+    gets(fiches);
+    printf("\n");
+
+    printf("\nDIGITE UN RANGO PROMEDIO DEL VIAJE DE LOS PASAJEROS QUE DESEA VER: ");
+    fflush(stdin);
+    gets(tiempo);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if (strcmp(fiches, (ListadoServicio + i)->ficha) == 0){
+
+            if(strcmp(tiempo, (ListadoServicio+i)->tiempo.hora) == 0){
+
+                printf("CLIENTE ID: %d\n", (ListaPasajeros+i)->ID);
+                printf("NOMBRE: %s\n", (ListaPasajeros+i)->nombre);
+                printf("LUGAR DE TRABAJO: %s\n", (ListaPasajeros+i)->trabajo);
+                printf("CEULAR: %s\n", (ListaPasajeros+i)->celular);
+                printf("COMPANIA MOVIL: %s\n\n", (ListaPasajeros+i)->comp_movil);
+                //rintf("%d\n", i);
+
+            }
+        }
+    }
+}
+
+
+
+//
+void VerPasajerosdeUnConcho_Monto(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0, monto_min, monto_max;
+    char fiches[10];
+
+    printf("\nDIGITE LA FICHA DEL CONCHO QUE DESEA VER: ");
+    fflush(stdin);
+    gets(fiches);
+    printf("\n");
+
+    printf("\nDIGITE UN RANGO MINIMO DEL PAGO DE LOS PASAJEROS QUE DESEA VER: ");
+    fflush(stdin);
+    scanf("%d", &monto_min);
+    printf("\n");
+
+    printf("\nDIGITE UN RANGO MAXIMO DEL PAGO DE LOS PASAJEROS QUE DESEA VER: ");
+    fflush(stdin);
+    scanf("%d", &monto_max);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if (strcmp(fiches, (ListadoServicio+i)->ficha) == 0){
+
+            if(monto_min <= (ListadoServicio+i)->pago &&  monto_max >= (ListadoServicio+i)->pago && (ListadoServicio+i)->cliente == (ListaPasajeros)->ID){
+
+                printf("CLIENTE ID: %d\n", (ListaPasajeros+i)->ID);
+                printf("NOMBRE: %s\n", (ListaPasajeros+i)->nombre);
+                printf("LUGAR DE TRABAJO: %s\n", (ListaPasajeros+i)->trabajo);
+                printf("CEULAR: %s\n", (ListaPasajeros+i)->celular);
+                printf("COMPANIA MOVIL: %s\n\n", (ListaPasajeros+i)->comp_movil);
+                //rintf("%d\n", i);
+
+            }
+        }
+    }
+}
+
+
+
+//
+void VerPasajerosdeUnConcho_Monto_Devuelta(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0, monto_min, monto_max;
+    char fiches[10];
+
+    printf("\nDIGITE LA FICHA DEL CONCHO QUE DESEA VER: ");
+    fflush(stdin);
+    gets(fiches);
+    printf("\n");
+
+    printf("\nDIGITE UN RANGO MINIMO DEL PAGO MENOS LA DEVUELTA DE LOS PASAJEROS QUE DESEA VER: ");
+    fflush(stdin);
+    scanf("%d", &monto_min);
+    printf("\n");
+
+    printf("\nDIGITE UN RANGO MAXIMO DEL PAGO MENOS LA DEVULETA DE LOS PASAJEROS QUE DESEA VER: ");
+    fflush(stdin);
+    scanf("%d", &monto_max);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if (strcmp(fiches, (ListadoServicio+i)->ficha) == 0){
+
+            if(monto_min <= (ListadoServicio+i)->cant_estimada <= monto_max && (ListadoServicio+i)->cliente == (ListaPasajeros)->ID){
+
+                printf("CLIENTE ID: %d\n", (ListaPasajeros+i)->ID);
+                printf("NOMBRE: %s\n", (ListaPasajeros+i)->nombre);
+                printf("LUGAR DE TRABAJO: %s\n", (ListaPasajeros+i)->trabajo);
+                printf("CEULAR: %s\n", (ListaPasajeros+i)->celular);
+                printf("COMPANIA MOVIL: %s\n\n", (ListaPasajeros+i)->comp_movil);
+                //rintf("%d\n", i);
+
+            }
+        }
+    }
+}
+
+
+
+//
+void VerPasajerosdeUnConcho_Fecha(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0;
+    char fiches[10], tiempo_rango[10];
+
+    printf("\nDIGITE LA FICHA DEL CONCHO QUE DESEA VER: ");
+    fflush(stdin);
+    gets(fiches);
+    printf("\n");
+
+    printf("\nDIGITE UN RANGO DE FECHA DE LOS PASAJEROS QUE DESEA VER: ");
+    fflush(stdin);
+    gets(tiempo_rango);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if (strcmp(fiches, (ListadoServicio+i)->ficha) == 0){
+
+            if(strcmp(tiempo_rango, (ListadoServicio+i)->tiempo.hora) == 0){
+
+                printf("CLIENTE ID: %d\n", (ListaPasajeros+i)->ID);
+                printf("NOMBRE: %s\n", (ListaPasajeros+i)->nombre);
+                printf("LUGAR DE TRABAJO: %s\n", (ListaPasajeros+i)->trabajo);
+                printf("CEULAR: %s\n", (ListaPasajeros+i)->celular);
+                printf("COMPANIA MOVIL: %s\n\n", (ListaPasajeros+i)->comp_movil);
+
+            }
+        }
+    }
+}
+
+//CARRO
+
+void VerConchoqueMontaUnPasajero(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0, ids;
+
+    printf("\nDIGITE EL ID DEL PASAJERO QUE DESEA VERIFICAR QUE CONCHOS HA TOMADO: ");
+    fflush(stdin);
+    scanf("%d", &ids);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if(ids == (ListadoServicio)->cliente && ids == (ListaPasajeros)->ID){
+
+            if (strcmp((ListadoConcho+i)->ficha, (ListadoServicio + i)->ficha) == 0){
+
+                printf("FICHA: %s\n", (ListadoConcho+i)->ficha);
+                printf("MARCA: %s\n", (ListadoConcho+i)->marca);
+                printf("MODELO: %d\n", (ListadoConcho+i)->anio);
+                printf("PROPIETARIO: %s\n\n", (ListadoConcho+i)->propietario);
+            }
             }
 
-        }
-        if (!repetido) {
-            matrizes[n1][indice] = elemento;
-            indice++;
-        }
     }
+}
 
-        for (int n1 = 0; n1 < 20; n1++) {
 
-            for (int n2 = 0; n2 < 20; n2++) {
 
-                if (matrizes[n1][n2] != 0) {
+void VerConchoModelo(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
 
-                    printf("%d ", matrizes[n1][n2]);
+    int i =0, ids, p_rango, ul_rango;
+
+    printf("\nDIGITE EL ID DEL PASAJERO QUE DESEA VERIFICAR: ");
+    fflush(stdin);
+    scanf("%d", &ids);
+    printf("\n");
+
+    printf("\nDIGITE El PRIMER RANGO DE MODELO: ");
+    fflush(stdin);
+    scanf("%d", &p_rango);
+    printf("\n");
+
+    printf("\nDIGITE El PRIMER RANGO DE MODELO: ");
+    fflush(stdin);
+    scanf("%d", &ul_rango);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if(ids == (ListadoServicio)->cliente && ids == (ListaPasajeros)->ID){
+
+            if (strcmp((ListadoConcho+i)->ficha, (ListadoServicio + i)->ficha) == 0){
+
+                if(p_rango <= (ListadoConcho+i)->anio && ul_rango >= (ListadoConcho+i)->anio){
+
+                printf("FICHA: %s\n", (ListadoConcho+i)->ficha);
+                printf("MARCA: %s\n", (ListadoConcho+i)->marca);
+                printf("MODELO: %d\n", (ListadoConcho+i)->anio);
+                printf("PROPIETARIO: %s\n\n", (ListadoConcho+i)->propietario);
+
                 }
             }
         }
-        printf("\n"); }
+
+    }
 }
 
 
 
-int main() {
+void VerConchoMarca(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
 
+    int i =0, ids;
+    char marcas[10];
 
-  //Ejercicio 12.4 Un array unidimensional se puede indexar con la aritmética de punteros.
-  // ¿Qué tipo de puntero habra que definir para indexar un array bidimensional?
-
-  //Respuesta: hay que definir un puntero a arrays para indexarlo.
-
-    int matriz[3][4] = {
-            {1, 2, 3, 4},
-            {5, 6, 7, 8},
-            {9, 10, 11, 12}
-    };
-    int (*puntero)[4];
-    puntero = matriz;
-
-    int elemento = puntero[1][2];
-    printf("El valor es: %d\n\n", elemento);
-
-
-//Ejercicio 12.5 En el siguiente codigo se accede a los elementos de una matriz. Acceder a los mismos elementos con aritmetica
-// de punteros. Codigo:
-
-int f,c;
-double mt[N][M] = {{1.1,1.2,1.3,1.4,1.5 },
-                   {2.1,2.2,2.3,2.4,2.5 },
-                   {3.1,3.2,3.3,3.4,3.5 },
-                   {4.1,4.2,4.3,4.4,4.5 }
-};
-
-//Sin aritmetica de punteros:
-
-for(f=0; f<N; f++){
-    for(c=0; c<M; c++) {
-        printf(" %.1lf ", mt[f][c]);
-    }
+    printf("\nDIGITE EL ID DEL PASAJERO QUE DESEA VERIFICAR QUE CONCHOS HA TOMADO: ");
+    fflush(stdin);
+    scanf("%d", &ids);
     printf("\n");
-}
-    printf("------------------------------\n");
-//Con aritmetica de punteros:
 
-double (*puntero2)[5];
-puntero2 = mt;
+    printf("\nDIGITE LA MARCA DEL CARRO: ");
+    fflush(stdin);
+    gets(marcas);
+    printf("\n");
 
-    for(f=0; f<N; f++){
-        for(c=0; c<M; c++) {
-            printf(" %.1lf ",  *(*(puntero2 + f) + c));
+    for(i = 0; i < ind; i++) {
+
+        if(ids == (ListadoServicio)->cliente && ids == (ListaPasajeros)->ID){
+
+            if (strcmp((ListadoConcho+i)->ficha, (ListadoServicio + i)->ficha) == 0) {
+
+                if (strcmp(marcas, (ListadoConcho + i)->marca) == 0) {
+
+                    printf("FICHA: %s\n", (ListadoConcho + i)->ficha);
+                    printf("MARCA: %s\n", (ListadoConcho + i)->marca);
+                    printf("MODELO: %d\n", (ListadoConcho + i)->anio);
+                    printf("PROPIETARIO: %s\n\n", (ListadoConcho + i)->propietario);
+                }
+            }
         }
-        printf("\n");
+
     }
-
-
-    // Ejercicio 12.6 Escribe una funcion con un argumento de tipo puntero a double y otro argumento de tipo int. El primer argumento
-    //se debe de corresponder con un array y el segundo con el numero de elementos del array. La funcion ha de ser de tipo
-    // puntero a double para devolver la direccion del elemento menor.
-
-    double numeros[]= {1.3, 2.3, 3.3, 4.3};
-    int num_tam = sizeof(numeros) / sizeof(numeros[0]);
-    double* elemento02 = funcion(numeros, num_tam);
-    printf("\n%.1lf\n\n", *elemento02);
-
-
-//Ejercicio 12.8  Que diferencias se pueden encontrar entre estas dos declaraciones?
-
-//float mt1[5][5];
-//float *m[5];
-
-//respuesta: El mt1 es un arreglo bidimensional mientras que el m es un array de punteros.
-
-//Se podria hacer estas asignaciones? respuesta: no, ya que no se puede asignar directamente un arreglo bidimensional con
-// array de punteros porque son diferentes.
-
-//m = mt1;
-//m[1] = mt1[1];
-//m[2] = &mt1[2][0];
-
-
-//Problema 12.1 Escribir un programa en el que se lean 20 lineas de texto, cada linea con un maximo de 80 caracteres.
-//Mostrar por pantalla el numero de vocales que tiene cada linea.
-
-char lineas[20][81];
-int i, num_vocal;
-
-    printf("\n Problema 12.1, Introduzca solo 20 lineas de texto (maximo 80 caracteres):");
-
-    for(i = 0; i < 20; i++){
-        gets(lineas[i]);
-    }
-
-    for(i=0; i < 20; i++){
-        num_vocal = vocal(lineas[i]);
-        printf("Linea %d: %d vocales\n", i+1, num_vocal);
-    }
-
-    //Problema 12.4 Se quiere evaluar las funciones f(x), g(x) y z(x) para todos los valores de x en el intervalo
-    // 0 <= x < 3.5 con incremento de 0.2. Escribir un programa que evalue dichas funcione, utilizar un array de punteros
-    //a funcion. Las funciones son las siguientes:
-    //f(x) = 3*e^x-2x
-    //g(x) = -x*sin(x)+1.5
-    //z(x) = x^2 - 2x + 3
-
-    double x;
-    double (*funciones[3])(double) = {ff, g, z};
-
-    printf("\nx              f(x)             g(x)             z(x)\n");
-
-    for (x = 0; x < 3.5; x += 0.2) {
-        printf("%.1f:\t\t", x);
-
-        for ( i = 0; i < 3; i++) {
-            printf("%.1f\t\t", funciones[i](x));
-        }
-        printf("\n");
-    }
-
-
-//Problema 12.5 Se quiere sumar enteros largos, con un numero de digitos que supera el maximo entero largo. Los enteros
-//tienen un maximo de 40 digitos. Para solventar el problema se utilizan cadenas de caracteres para guardar cada entero y realizar
-//la suma. Escribir un programa que lea dos enteros largos y realice la suma.
-
-    char numero1[41];
-    char numero2[41];
-    char resultado[41];
-
-    printf("\nIngrese el primer entero largo: ");
-    scanf("%s", numero1);
-    printf("\nIngrese el segundo entero largo: ");
-    scanf("%s", numero2);
-    enteros_largos(numero1, numero2, resultado);
-    printf("\nSuma: %s\n", resultado);
-
-
-    //Problema 12.6 Escribir una funcion que tenga como entrada una cadena y devuelva un numero real. La cadena contiene
-    //los caracteres de un numero real en formato decimal (por ejemplo, la cadena "25.56" se ha de convertir en el correspondiente
-    //valor real).
-
-    const char *num = "25.56";
-    double number = cadena(num);
-    printf("\nNumero: %lf\n", number);
-
-
-    //Problema 12.9 Escribir un programa que permita calcular el area de diversas figuras: un triangulo rectangulo, un
-    //triangulo isoceles, un cuadrado, un trapecio y un circulo. Utilizar un array de punteros de funciones, siendo las
-    //funciones, siendo las funciones las que permiten calcular el area.
-
-
-    //double (*calcularArea[5])(double, double) = { rectangulo,isoceles,cuadrado,trapecio,circulo };
-    printf("Circulo: %.1lf\n", circulo(4));
-    printf("Rectangulo: %.1lf\n", rectangulo(4,6));
-    printf("Isoceles: %.1lf\n", isoceles(6, 8));
-    printf("trapecio: %.1lf\n", trapecio(12, 4, 8));
-
-
-
-    //Ejercicio 13.1 Encuentre los errores en las siguientes declaraciones y sentencias
-
-    //int n, *p;
-    //char** dob= "Cadena de dos punteros"; en esta linea hay un error, porque se esta asignando una cadena de caracteres
-    //directamente a un puntero a puntero
-    //p=n* malloc(sizeof(int)); aqui hay un error de sintaxis. En realidad deberia estar asi: p = malloc(sizeof(int));
-
-
-    //Ejercicio 13.6 Que diferencias existen entre las funciones malloc(), calloc(), y realloc()?
-    //respuesta: malloc() se utiliza para asignar memoria dinámica en el montón (heap) durante la ejecución del programa,
-   // se utiliza para asignar y también inicializar memoria dinámica en el montón. Y el realloc se utiliza para cambiar
-   // el tamaño de un bloque de memoria previamente asignado. Toma dos argumentos: un puntero al bloque de memoria
-   // existente y el nuevo tamaño deseado en bytes.
-
-
-
-//Ejercicio 13.11 Que diferencias existe entre las siguientes declaraciones?
-//char *c[15];     este crea un arreglo de 15 punteros.
-//char **c,         este crea un puntero a puntero de caracteres
-//char c[15][12]    este crea un arreglo bidimensional de caracteres
-
-
-//Problema 13.1  Escriba un programa para leer n cadenas de caracteres. Cada cadena tiene una longitud variable y esta
-//formada por cualquier caracter. La memoria que ocupa cada cadena se ha de ajustar al tamano que tiene. Una vez leidas las cadenas
-//se debe realizar un proceso que consiste en eliminar todos los blancos, siempre manteniendo el espacio ocupado ajustado
-//al numero de caracteres. El programa debe mostrar las cadenas leidas y las cadenas transformadas
-
-int n;
-
-    printf("\nIntroduzca la cantidad de cadenas de caracter a leer: ");
-    scanf("%d", &n);
-
-    char cadenas[n][100];
-    for(i=0; i < n; i++){
-        printf("\nIntroduzca la cadena %d: ", i + 1);
-        scanf("%s", cadenas[i]);
-    }
-
-    for (i = 0; i < n; i++) {
-        eliminar_espacios(cadenas[i]);
-    }
-
-    printf("\nCadenas originales:\n");
-
-    for (i = 0; i < n; i++) {
-        printf("%s\n", cadenas[i]);
-    }
-
-
-    printf("\nCadenas transformadas:\n");
-    for (i = 0; i < n; i++) {
-        printf("%s\n", cadenas[i]);
-    }
-
-
-    //Problema 13.2 Se desea escribir un programa para leer numeros grandes (de tantos digitos que no entran en variables
-    // long) y obtener la suma de ellos. El almacenamiento de un numero grande se ha de hacer en una estructura que tenga un
-    //array dinamico y otro campo con el numero de digitos. La suma de dos numeros grandes dara como resultado otro numero
-    //grande representando en su correspondiente estructura.
-
-
-
-    int num1, num2;
-    printf("Ingrese el primer numero grande:\n");
-    scanf("%d", &num1);
-    num1 = leer_num();
-    printf("\nIngrese el segundo numero grande:\n");
-    scanf("%d", &num2);
-    num2 = leer_num();
-    printf("Resultado: %d\n", sumar_num(num1, num2));
-
-
-
-    //Problema 13.4 Se tiene una matriz de 20 x 20 elementos enteros. En la matriz hay un elemento repetido muchas veces.
-    //Se quiere generar otra matriz de 20 filas y que en cada fila esten solo los elementos no repetidos. Escribir un programa
-    //que tenga como entrada la matriz de 20 x 20, genere la matriz dinamica pedida y que se muestre en pantalla.
-
-
-    int matriz01[20][20];
-    matriz_unicos(matriz01);
-
-    return 0;
 }
+
+
+
+void VerConchoPropietario(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0, ids;
+    char dueno[10];
+
+    printf("\nDIGITE EL ID DEL PASAJERO QUE DESEA VERIFICAR QUE CONCHOS HA TOMADO: ");
+    fflush(stdin);
+    scanf("%d", &ids);
+    printf("\n");
+
+    printf("\nDIGITE EL NOMBRE DEL PROPIETARIO DE CARROS: ");
+    fflush(stdin);
+    gets(dueno);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if(ids == (ListadoServicio)->cliente && ids == (ListaPasajeros)->ID){
+
+            if (strcmp((ListadoConcho+i)->ficha, (ListadoServicio + i)->ficha) == 0) {
+
+                if (strcmp(dueno, (ListadoConcho + i)->propietario) == 0) {
+
+                    printf("FICHA: %s\n", (ListadoConcho + i)->ficha);
+                    printf("MARCA: %s\n", (ListadoConcho + i)->marca);
+                    printf("MODELO: %d\n", (ListadoConcho + i)->anio);
+                    printf("PROPIETARIO: %s\n\n", (ListadoConcho + i)->propietario);
+                }
+            }
+        }
+
+    }
+}
+
+
+
+void VerConchoMonto(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0, ids, p_rango, ul_rango;
+
+    printf("\nDIGITE EL ID DEL PASAJERO QUE DESEA VERIFICAR: ");
+    fflush(stdin);
+    scanf("%d", &ids);
+    printf("\n");
+
+    printf("\nDIGITE El PRIMER RANGO DE MONTO: ");
+    fflush(stdin);
+    scanf("%d", &p_rango);
+    printf("\n");
+
+    printf("\nDIGITE El PRIMER RANGO DE MONTO: ");
+    fflush(stdin);
+    scanf("%d", &ul_rango);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if(ids == (ListadoServicio)->cliente && ids == (ListaPasajeros)->ID){
+
+            if (strcmp((ListadoConcho+i)->ficha, (ListadoServicio + i)->ficha) == 0){
+
+                if(p_rango <= (ListadoServicio+i)->pago && ul_rango >= (ListadoServicio+i)->pago){
+
+                    printf("FICHA: %s\n", (ListadoConcho+i)->ficha);
+                    printf("MARCA: %s\n", (ListadoConcho+i)->marca);
+                    printf("MODELO: %d\n", (ListadoConcho+i)->anio);
+                    printf("PROPIETARIO: %s\n\n", (ListadoConcho+i)->propietario);
+
+                }
+            }
+        }
+
+    }
+}
+
+//
+void VerConchoFecha(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i =0, ids;
+    char p_rango[10], ul_rango[10];
+
+    printf("\nDIGITE EL ID DEL PASAJERO QUE DESEA VERIFICAR: ");
+    fflush(stdin);
+    scanf("%d", &ids);
+    printf("\n");
+
+    printf("\nDIGITE El PRIMER RANGO DE FECHA: ");
+    fflush(stdin);
+    gets(p_rango);
+    printf("\n");
+
+    printf("\nDIGITE El PRIMER RANGO DE FECHA: ");
+    fflush(stdin);
+    gets(ul_rango);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+
+        if(ids == (ListadoServicio)->cliente && ids == (ListaPasajeros)->ID){
+
+            if (strcmp((ListadoConcho+i)->ficha, (ListadoServicio + i)->ficha) == 0){
+
+                if(p_rango <= (ListadoServicio+i)->tiempo.hora && ul_rango >= (ListadoServicio+i)->tiempo.hora){
+
+                    printf("FICHA: %s\n", (ListadoConcho+i)->ficha);
+                    printf("MARCA: %s\n", (ListadoConcho+i)->marca);
+                    printf("MODELO: %d\n", (ListadoConcho+i)->anio);
+                    printf("PROPIETARIO: %s\n\n", (ListadoConcho+i)->propietario);
+
+                }
+            }
+        }
+
+    }
+}
+
+//SERVICIOS
+
+void VerFichaCarro(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i ;
+
+    for(i = 0; i < ind; i++) {
+            if (strcmp((ListadoConcho+i)->ficha, (ListadoServicio + i)->ficha) == 0){
+
+                printf("FICHA DE CARRO: %s\n", (ListadoServicio+i)->ficha);
+            }
+    }
+}
+
+void VerIDPasajero(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i ;
+
+    for(i = 0; i < ind; i++) {
+        if ((ListaPasajeros+i)->ID == (ListadoServicio + i)->cliente){
+
+            printf("ID DEL PASAJERO: %d\n", (ListadoServicio+i)->cliente);
+        }
+    }
+}
+
+
+void VerRangoMonto(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i, p_rango, ul_rango;
+
+    printf("\nDIGITE El PRIMER RANGO DE MONTO: ");
+    fflush(stdin);
+    scanf("%d", &p_rango);
+    printf("\n");
+
+    printf("\nDIGITE El PRIMER RANGO DE MONTO: ");
+    fflush(stdin);
+    scanf("%d", &ul_rango);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+        if (p_rango <= (ListadoServicio)->pago && ul_rango >= (ListadoServicio)->pago){
+
+            printf("MONTO: %d\n", (ListadoServicio+i)->pago);
+        }
+    }
+}
+
+
+void VerRangoFecha(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i;
+    char p_rango[10], ul_rango[10];
+
+    printf("\nDIGITE El PRIMER RANGO DE FECHA: ");
+    fflush(stdin);
+    gets(p_rango);
+    printf("\n");
+
+    printf("\nDIGITE El SEGUNDO RANGO DE FECHA: ");
+    fflush(stdin);
+    gets(ul_rango);
+    printf("\n");
+
+    for(i = 0; i < ind; i++) {
+        if (p_rango <= (ListadoServicio)->tiempo.hora && ul_rango >= (ListadoServicio)->tiempo.hora){
+
+            printf("FECHA: %s\n", (ListadoServicio+i)->tiempo.hora);
+        }
+    }
+}
+
+
+
+void VerRangoTiempo(int ind, Servicio* ListadoServicio, Pasajeros* ListaPasajeros, Carro* ListadoConcho){
+
+    int i;
+    for(i = 0; i < ind; i++) {
+
+            printf("TIEMPO ESTIMADO: %s\n", (ListadoServicio+i)->tiempo.hora);
+        }
+    }
